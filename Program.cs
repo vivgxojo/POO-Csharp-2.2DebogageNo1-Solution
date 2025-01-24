@@ -1,18 +1,23 @@
 ﻿
 // Initialisation des variables
+using System.Diagnostics;
 using System.Globalization;
 
-double numPass = 0;
-double numEchec = 0;
+int numPass = 0;
+int numEchec = 0;
 double total = 0;
-double count = 0;
+int count = 0;
 double minGrade = 100.0;
 double maxGrade = 0.0;
+double grade = 0; //Variable non initialisée
 
-// Demander à l'utilisateur de saisir une note
-Console.WriteLine("Entrez une note ou -1 pour terminer : ");
-//Variable non initialisée
-double grade = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+do
+{                   
+    // Demander à l'utilisateur de saisir une note
+    Console.WriteLine("Entrez une note ou -1 pour terminer : ");
+                                    //Accepter le point (.) décimal
+    grade = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+} while (grade > 100 || grade < -1);
 while (grade >= 0.0)
 {
     // Déterminer le nombre de réussites et d'échecs
@@ -31,23 +36,25 @@ while (grade >= 0.0)
     total = total + grade; //Erreurs nom de variable et de calcul 
     count = count + 1;
 
-    // Demander une autre note
-    Console.WriteLine("Entrez une note ou -1 pour terminer : ");
-    grade = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
-
+    do
+    {
+        // Demander une autre note
+        Console.WriteLine("Entrez une note ou -1 pour terminer : ");
+        grade = double.Parse(Console.ReadLine(), CultureInfo.InvariantCulture);
+    } while (grade > 100 || grade < -1) ;
 }
 // Affichage des résultats
 if (count > 0)
 {
     double moyenne = total / count; // Variable non initialisée
-    Console.WriteLine("La moyenne est : " + Math.Round(moyenne, 2));
+    Console.WriteLine($"La moyenne est : {moyenne:F2}");
     Console.WriteLine("Le nombre de succès est : " + numPass);
     Console.WriteLine("Le nombre d'échecs est : " + numEchec);
     Console.WriteLine("La plus grande note est : " + maxGrade);
     Console.WriteLine("La plus petite note est : " + minGrade);
 
     // Succès ou échec
-    if (moyenne >= 60.00)
+    if (Math.Round(moyenne) >= 60)
         Console.WriteLine("Cet étudiant passe !");
     else
         Console.WriteLine("Cet étudiant échoue !");
